@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+.clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+.ct {
+  width: 403px;
+  border: 1px solid #bbb;
+  border-radius: 3px;
+}
+.tab>li {
+  float: left;
+  width: 100px;
+  text-align: center;
+  border-bottom: 1px solid #bbb;
+  border-left: 1px solid #bbb;
+  cursor: pointer;
+}
+.tab>li:first-of-type {
+  border-left: none;
+}
+.active {
+  background: #bbb;
+}
+.panel {
+  
+  width: 403px;
+  overflow: hidden;
+}
+.panel>ul {
+  position: relative;
+  
+  width: 1612px;
+}
+.panel li {
+  float: left;
+  width: 403px;
+  height: 150px;
+}
+  </style>
+</head>
+<body>
+  <div class="ct">
+    <ul class="tab clearfix">
+      <li class="active">tab1</li>
+      <li>tab2</li>
+      <li>tab3</li>
+      <li>tab4</li>
+    </ul>
+    <div class="panel">
+      <ul class="clearfix">
+        <li>content1</li>
+        <li>content2</li>
+        <li>content3</li>
+        <li>content4</li>
+      </ul>
+    </div>
+  </div>
+  <div class="ct">
+    <ul class="tab clearfix">
+      <li class="active">tab1</li>
+      <li>tab2</li>
+      <li>tab3</li>
+      <li>tab4</li>
+    </ul>
+    <div class="panel">
+      <ul class="clearfix">
+        <li>content1</li>
+        <li>content2</li>
+        <li>content3</li>
+        <li>content4</li>
+      </ul>
+    </div>
+  </div>
+  <script>
+    var Tab = (function(){
+  function _Tab($ct) {
+    this.$ct = $ct;
+    this.bind();
+  }
+  _Tab.prototype.bind = function(){
+    this.tabs = this.$ct.find('.tab');
+    this.tab = this.tabs.children();
+    this.panel = this.$ct.find('.panel>ul');
+    this.index = 0;
+    var _this = this;
+    var panelWidth = this.$ct.width();
+
+    this.tab.on('click', function(){
+      _this.index = _this.tab.index($(this))
+      console.log(_this.index)
+      $(this).addClass('active').siblings().removeClass('active')
+      console.log(panelWidth)
+      _this.panel.css({'left': '-' + panelWidth * _this.index + 'px'})
+    })
+  }
+  return {
+    init: function($ct){
+      $ct.each(function(idx, node){
+        new _Tab($(node))
+      })
+    }
+  }
+})()
+Tab.init($('.ct'))
+
+
+
+
+  </script>
+</body>
+</html>
